@@ -1,3 +1,3 @@
-# Por favor faça um Fork desse projeto!
+# Desafio: Microservice de Propostas | A-Pass-Zup
 
-## Está em dúvida de como fazer um Fork? Não tem problema! [Aqui tem uma explicação do que entendemos que você deve considerar!](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo)
+Projeto de Microservice de Propostas - Orange Talents 07. | Zup
