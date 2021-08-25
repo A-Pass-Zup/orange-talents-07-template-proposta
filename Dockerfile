@@ -1,6 +1,6 @@
 FROM maven:3-openjdk-11 AS builder
-COPY ../src/ app/src/
-COPY ../pom.xml src
+COPY ./../src/ app/src/
+COPY ./../pom.xml src
 RUN mnv clean package
 
 FROM openjdk:11
