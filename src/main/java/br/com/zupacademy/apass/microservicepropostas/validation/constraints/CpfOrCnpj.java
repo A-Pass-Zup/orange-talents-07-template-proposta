@@ -1,4 +1,4 @@
-package br.com.zupacademy.apass.microservicepropostas.validation;
+package br.com.zupacademy.apass.microservicepropostas.validation.constraints;
 
 import org.hibernate.validator.constraints.CompositionType;
 import org.hibernate.validator.constraints.ConstraintComposition;
