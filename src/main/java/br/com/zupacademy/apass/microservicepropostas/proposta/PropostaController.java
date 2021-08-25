@@ -1,5 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.proposta;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,16 +18,19 @@ import javax.validation.Valid;
 @RequestMapping("/proposta")
 public class PropostaController {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private PropostaRepository propostaRepository;
 
     @PostMapping
-    @Transactional
     public ResponseEntity<?> cadastra(@Valid @RequestBody PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder) {
 
         var novaProposta = propostaRequest.converte();
 
-        this.entityManager.persist(novaProposta);
+        if(this.propostaRepository.existsByDocumento(novaProposta.getDocumento())) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+        propostaRepository.save(novaProposta);
 
         return ResponseEntity.created(
                 uriComponentsBuilder

@@ -1,15 +1,10 @@
 package br.com.zupacademy.apass.microservicepropostas.proposta;
 
+import br.com.zupacademy.apass.microservicepropostas.validation.constraints.CpfOrCnpj;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -20,7 +15,8 @@ public class Proposta {
     private Long id;
 
     @NotBlank
-    @NotNull
+    @Pattern(regexp = "^(\\d{11}|\\d{14})$")
+    @Column(nullable = false, unique = true, length = 14)
     private String documento;
 
     @Email
@@ -86,5 +82,14 @@ public class Proposta {
      */
     public Long getId() {
         return id;
+    }
+
+    /**
+     * Obtém o documento (cpf/cnpj) da proposta.
+     *
+     * @return
+     */
+    public String getDocumento() {
+        return documento;
     }
 }

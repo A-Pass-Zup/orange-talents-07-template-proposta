@@ -1,6 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.validation;
 
 import br.com.zupacademy.apass.microservicepropostas.validation.ErroValidacaoResponse;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -34,6 +35,7 @@ public class ValidationExceptionHandler {
     public List<ErroValidacaoResponse> validationBindException(BindException validationBindException) {
         return this.monstaResposta(validationBindException.getFieldErrors());
     }
+
 
     /**
      *

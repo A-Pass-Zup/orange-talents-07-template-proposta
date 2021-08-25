@@ -168,17 +168,26 @@ services:
       - 5433:5432
     environment:
       POSTGRES_USER: microservicepropostas
-      POSTGRES_PASSWORD: "0123456789"
+      POSTGRES_PASSWORD: '0123456789'
+    deploy:
+      resources:
+        limits:
+          memory: 250M
     networks:
       - microservice-propostas
 
+
   app-proposta:
-    build: ./
+    build: .
     environment:
-      SPRING_PROFILES_ACTIVE: prod
-      DATABASE_URL: jdbc:postgresql://db-propostas:5433/microservice-proposta
-      DATABASE_USER: microservice-propostas
-      DATABASE_PASSWORD: 0123456789
+      SPRING_PROFILES_ACTIVE: dev
+      DATABASE_PLATFORM: postgres
+      DATABASE_DRIVER: org.postgresql.Driver
+      DATABASE_URL: jdbc:postgresql://db-propostas:5432/microservicepropostas
+      DATABASE_USER: microservicepropostas
+      DATABASE_PASSWORD: '0123456789'
+    ports:
+      - 8080:8080
     depends_on:
       - db-propostas
     networks:
@@ -189,3 +198,4 @@ volumes:
   prometheus-volume:
   postgres-volume:
   db-propostas-volume:
+  maven-volume:
