@@ -1,4 +1,4 @@
-package br.com.zupacademy.apass.microservicepropostas.proposta.service.analise;
+package br.com.zupacademy.apass.microservicepropostas.external_service.analise;
 
 import br.com.zupacademy.apass.microservicepropostas.proposta.Proposta;
 import org.springframework.util.Assert;

@@ -1,9 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.proposta;
 
-import br.com.zupacademy.apass.microservicepropostas.proposta.service.analise.ResultadoAnalise;
 import br.com.zupacademy.apass.microservicepropostas.validation.constraints.CpfOrCnpj;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

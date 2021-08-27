@@ -1,7 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.proposta;
 
-import br.com.zupacademy.apass.microservicepropostas.proposta.service.analise.SolicitacaoAnalise;
-import br.com.zupacademy.apass.microservicepropostas.proposta.service.analise.SolicitacaoAnaliseClient;
+import br.com.zupacademy.apass.microservicepropostas.external_service.analise.SolicitacaoAnalise;
+import br.com.zupacademy.apass.microservicepropostas.external_service.analise.SolicitacaoAnaliseClient;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

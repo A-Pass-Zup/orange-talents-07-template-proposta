@@ -1,7 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.proposta.service.analise;
+package br.com.zupacademy.apass.microservicepropostas.external_service.analise;
 
 import br.com.zupacademy.apass.microservicepropostas.validation.constraints.CpfOrCnpj;
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
