@@ -1,5 +1,6 @@
 package br.com.zupacademy.apass.microservicepropostas.cartao;
 
+import br.com.zupacademy.apass.microservicepropostas.proposta.Proposta;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -32,17 +33,23 @@ public class Cartao {
     @Positive
     private Integer limite;
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    @OneToOne(optional = false, mappedBy = "cartao", cascade = CascadeType.PERSIST)
+    private Renegociacao renegociacao;
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private List<AvisoViagem> avisosViagens = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private List<CarteiraDigital> carteirasDigitais = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private List<Parcela> parcelas = new ArrayList<>();
+
+    @OneToOne(optional = false)
+    private Proposta proposta;
 
     /**
      * Construtor padrão para JPA. Não utilize.
@@ -58,7 +65,8 @@ public class Cartao {
                   @NotNull List<Bloqueio> bloqueios,
                   @NotNull List<AvisoViagem> avisosViagens,
                   @NotNull List<CarteiraDigital> carteirasDigitais,
-                  @NotNull List<Parcela> parcelas) {
+                  @NotNull List<Parcela> parcelas,
+                  @NotNull Proposta proposta) {
 
         Assert.hasText(identificador, "Não pode criar cartão com identificar nulo ou vazio!");
         Assert.notNull(emitidoEm, "Não pode criar cartão sem data/hora de emissão!");
@@ -72,6 +80,8 @@ public class Cartao {
         Assert.notNull(carteirasDigitais, "Não pode criar cartão com lista de carteiras digitais nula!");
         Assert.notNull(parcelas, "Não pode criar cartão com lista de parcelas nula!");
 
+        Assert.notNull(proposta, "Não pode criar o cartão sem a proposta!");
+
         this.identificador = identificador;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -81,5 +91,7 @@ public class Cartao {
         this.avisosViagens = avisosViagens;
         this.carteirasDigitais = carteirasDigitais;
         this.parcelas = parcelas;
+
+        this.proposta = proposta;
     }
 }

@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface ContasECartoesClient {
 
     @GetMapping("${servico-externo.contas.cartoes.urn}")
-    @JsonProperty("id") String getCartoes(String propostaId);
+    CartaoResponse getCartoes(String propostaId);
 }

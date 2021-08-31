@@ -2,15 +2,13 @@ package br.com.zupacademy.apass.microservicepropostas.cartao;
 
 import org.springframework.util.Assert;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
 public class AvisoViagem {
 
     @Id

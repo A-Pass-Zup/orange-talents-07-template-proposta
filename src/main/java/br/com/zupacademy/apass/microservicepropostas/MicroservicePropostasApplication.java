@@ -10,7 +10,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableFeignClients
-@EnableJpaRepositories(enableDefaultTransactions = false)
 @EnableScheduling
 public class MicroservicePropostasApplication {
 

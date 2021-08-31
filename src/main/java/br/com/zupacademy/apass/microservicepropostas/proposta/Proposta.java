@@ -9,10 +9,15 @@ import java.util.UUID;
 
 @Entity
 public class Proposta {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     /**
      * Código de identificação da proposta gerado pelo sistema
      */
-    @Id
+    @Column(nullable = false, unique = true)
     private String identificador = UUID.randomUUID().toString();
 
     @NotBlank
