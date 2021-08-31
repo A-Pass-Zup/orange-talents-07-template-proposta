@@ -10,6 +10,8 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 public class Cartao {
@@ -33,7 +35,7 @@ public class Cartao {
     @Positive
     private Integer limite;
 
-    @OneToOne(optional = false, mappedBy = "cartao", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private Renegociacao renegociacao;
 
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
@@ -58,14 +60,28 @@ public class Cartao {
     protected Cartao(){
     }
 
+    /**
+     *
+     * @param identificador Número do cartão
+     * @param emitidoEm
+     * @param titular
+     * @param limite
+     * @param renegociacao
+     * @param bloqueios
+     * @param avisosViagens
+     * @param carteirasDigitais
+     * @param parcelas
+     * @param proposta
+     */
     public Cartao(@NotBlank String identificador,
                   @NotNull LocalDateTime emitidoEm,
                   @NotBlank String titular,
                   @NotNull @Positive Integer limite,
-                  @NotNull List<Bloqueio> bloqueios,
-                  @NotNull List<AvisoViagem> avisosViagens,
-                  @NotNull List<CarteiraDigital> carteirasDigitais,
-                  @NotNull List<Parcela> parcelas,
+                  Optional<RenegociacaoWrapper> renegociacao,
+                  @NotNull List<BloqueioWrapper> bloqueios,
+                  @NotNull List<AvisoViagemWrapper> avisosViagens,
+                  @NotNull List<CarteiraDigitalWrapper> carteirasDigitais,
+                  @NotNull List<ParcelaWrapper> parcelas,
                   @NotNull Proposta proposta) {
 
         Assert.hasText(identificador, "Não pode criar cartão com identificar nulo ou vazio!");
@@ -87,10 +103,12 @@ public class Cartao {
         this.titular = titular;
         this.limite = limite;
 
-        this.bloqueios = bloqueios;
-        this.avisosViagens = avisosViagens;
-        this.carteirasDigitais = carteirasDigitais;
-        this.parcelas = parcelas;
+        renegociacao.ifPresent(value -> this.renegociacao = value.converte(this));
+
+        this.bloqueios = bloqueios.stream().map(b -> b.converte(this)).collect(Collectors.toList());
+        this.avisosViagens = avisosViagens.stream().map(av -> av.converte(this)).collect(Collectors.toList());
+        this.carteirasDigitais = carteirasDigitais.stream().map(cd -> cd.converte(this)).collect(Collectors.toList());
+        this.parcelas = parcelas.stream().map(p -> p.converte(this)).collect(Collectors.toList());
 
         this.proposta = proposta;
     }

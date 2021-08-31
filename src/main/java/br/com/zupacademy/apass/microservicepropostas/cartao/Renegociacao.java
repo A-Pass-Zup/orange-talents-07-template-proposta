@@ -33,7 +33,7 @@ public class Renegociacao {
     private BigDecimal valor;
 
     @NotNull
-    private LocalDateTime dataDeCriacao = LocalDateTime.now();
+    private LocalDateTime dataDeCriacao;
 
     /**
      * Construtor para JPA. Não utilize.
@@ -51,7 +51,8 @@ public class Renegociacao {
     public Renegociacao(@NotNull Cartao cartao,
                         @NotBlank String identificador,
                         @NotNull @Positive Integer quantidade,
-                        @NotNull @Positive BigDecimal valor) {
+                        @NotNull @Positive BigDecimal valor,
+                        @NotNull LocalDateTime dataDeCriacao) {
 
         Assert.notNull(cartao, "Cartão de renegociação não pode ser nulo!");
 
@@ -63,9 +64,12 @@ public class Renegociacao {
         Assert.notNull(valor, "Valor de renegociação não pode ser nulo!");
         Assert.isTrue(valor.compareTo(BigDecimal.ZERO) > 0, "Valor de renegociação precisa ser > 0!");
 
+        Assert.notNull(dataDeCriacao, "Data de criação da renegociação não pode ser nula!");
+
         this.identificador = identificador;
         this.quantidade = quantidade;
         this.valor = valor;
+        this.dataDeCriacao = dataDeCriacao;
     }
 
     @Override

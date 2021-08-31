@@ -1,10 +1,22 @@
 package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
 
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
+import br.com.zupacademy.apass.microservicepropostas.cartao.ParcelaWrapper;
+import br.com.zupacademy.apass.microservicepropostas.proposta.PropostaRepository;
+import org.springframework.cloud.netflix.ribbon.apache.HttpClientStatusCodeException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CartaoResponse {
 
@@ -33,14 +45,17 @@ public class CartaoResponse {
     @Positive
     private Integer limite;
 
-    private RenegociacaoResponse renegociacao;
+    private Optional<RenegociacaoResponse> renegociacao;
 
     @NotNull
     private VencimentoResponse vencimento;
 
+    @NotNull
+    private String idProposta;
+
     /**
      *
-     * @param id
+     * @param id Número do cartão
      * @param emitidoEm
      * @param titular
      * @param bloqueios
@@ -51,16 +66,17 @@ public class CartaoResponse {
      * @param renegociacao
      * @param vencimento
      */
-    public CartaoResponse(String id,
-                          LocalDateTime emitidoEm,
-                          String titular,
-                          List<BloqueioResponse> bloqueios,
-                          List<AvisoViagemResponse> avisos,
-                          List<CarteiraDigitalResponse> carteiras,
-                          List<ParcelaResponse> parcelas,
-                          Integer limite,
-                          RenegociacaoResponse renegociacao,
-                          VencimentoResponse vencimento) {
+    public CartaoResponse(@NotEmpty String id,
+                          @NotNull LocalDateTime emitidoEm,
+                          @NotBlank String titular,
+                          @NotNull List<BloqueioResponse> bloqueios,
+                          @NotNull List<AvisoViagemResponse> avisos,
+                          @NotNull List<CarteiraDigitalResponse> carteiras,
+                          @NotNull List<ParcelaResponse> parcelas,
+                          @NotNull @Positive Integer limite,
+                          Optional<RenegociacaoResponse> renegociacao,
+                          @NotNull VencimentoResponse vencimento,
+                          @NotBlank String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -71,5 +87,25 @@ public class CartaoResponse {
         this.limite = limite;
         this.renegociacao = renegociacao;
         this.vencimento = vencimento;
+        this.idProposta = idProposta;
+    }
+
+    public Cartao converte(PropostaRepository propostaRepository) {
+
+        final var proposta = propostaRepository
+                .findByIdentificador(this.idProposta)
+                .orElseThrow( () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Falha com id de proposta!"));
+
+        return new Cartao(this.id,
+                this.emitidoEm,
+                this.titular,
+                this.limite,
+                this.renegociacao.map(RenegociacaoResponse::converte),
+                this.bloqueios.stream().map(BloqueioResponse::converte).collect(Collectors.toList()),
+                this.avisos.stream().map(AvisoViagemResponse::converte).collect(Collectors.toList()),
+                this.carteiras.stream().map(CarteiraDigitalResponse::converte).collect(Collectors.toList()),
+                this.parcelas.stream().map(ParcelaResponse::converte).collect(Collectors.toList()),
+                proposta);
+
     }
 }

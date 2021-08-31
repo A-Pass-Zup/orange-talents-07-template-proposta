@@ -2,6 +2,7 @@ package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 import br.com.zupacademy.apass.microservicepropostas.cartao.Renegociacao;
+import br.com.zupacademy.apass.microservicepropostas.cartao.RenegociacaoWrapper;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -45,10 +46,9 @@ public class RenegociacaoResponse {
     /**
      * Converte os dados para um objeto de domínio.
      *
-     * @param cartao
      * @return
      */
-    public Renegociacao converte(Cartao cartao) {
-        return new Renegociacao(cartao, this.id, this.quantidade, this.valor);
+    public RenegociacaoWrapper converte() {
+        return new RenegociacaoWrapper(this.id, this.quantidade, this.valor, this.dataDeCriacao);
     }
 }

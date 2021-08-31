@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +28,12 @@ public class CarteiraDigital {
     @Email
     private String email;
 
+    @NotNull
+    private LocalDateTime associadaEm;
+
+    @NotBlank
+    private String emissor;
+
     /**
      * Construtor padrão para JPA. Não utilize.
      */
@@ -39,18 +46,26 @@ public class CarteiraDigital {
      * @param cartao
      * @param identificador
      * @param email
+     * @param associadaEm
+     * @param emissor
      */
     public CarteiraDigital(@NotNull Cartao cartao,
                            @NotBlank String identificador,
-                           @NotBlank @Email String email) {
+                           @NotBlank @Email String email,
+                           @NotNull LocalDateTime associadaEm,
+                           @NotBlank String emissor) {
 
         Assert.notNull(cartao, "Cartão da carteira digital não poder ser nulo!");
         Assert.hasText(identificador, "Identificador da carteira digital não pode ser nulo!");
         Assert.hasText(email, "Carteira digital precisa de um e-mail!");
+        Assert.notNull(associadaEm, "Data/hora de associação não pode ser nula!");
+        Assert.hasText(emissor, "Emissor da carteira digital não pode ser vazio!");
 
         this.cartao = cartao;
         this.identificador = identificador;
         this.email = email;
+        this.associadaEm = associadaEm;
+        this.emissor = emissor;
     }
 
     @Override

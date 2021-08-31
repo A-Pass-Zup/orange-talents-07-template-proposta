@@ -1,15 +1,11 @@
-package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
-
-import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
-import br.com.zupacademy.apass.microservicepropostas.cartao.Parcela;
-import br.com.zupacademy.apass.microservicepropostas.cartao.ParcelaWrapper;
+package br.com.zupacademy.apass.microservicepropostas.cartao;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-public class ParcelaResponse {
+public class ParcelaWrapper {
     @NotBlank
     private String identificador;
 
@@ -27,7 +23,7 @@ public class ParcelaResponse {
      * @param quantidade
      * @param valor
      */
-    public ParcelaResponse(@NotBlank String identificador,
+    public ParcelaWrapper(@NotBlank String identificador,
                           @NotNull @Positive Integer quantidade,
                           @NotNull @Positive BigDecimal valor) {
         this.identificador = identificador;
@@ -35,7 +31,7 @@ public class ParcelaResponse {
         this.valor = valor;
     }
 
-    public ParcelaWrapper converte() {
-        return new ParcelaWrapper(this.identificador, this.quantidade, this.valor);
+    public Parcela converte(Cartao cartao) {
+        return new Parcela(cartao, this.identificador, this.quantidade, this.valor);
     }
 }
