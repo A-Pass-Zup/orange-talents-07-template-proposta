@@ -116,6 +116,14 @@ public class Proposta {
     }
 
     /**
+     *
+     * @return
+     */
+    public StatusProposta getStatus() {
+        return status;
+    }
+
+    /**
      * Define o status da proposta.
      *
      * @param status

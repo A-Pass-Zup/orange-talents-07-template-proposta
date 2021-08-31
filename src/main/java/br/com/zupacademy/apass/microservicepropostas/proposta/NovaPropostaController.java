@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/proposta")
-public class PropostaController {
+public class NovaPropostaController {
 
     @Autowired
     private PropostaRepository propostaRepository;
