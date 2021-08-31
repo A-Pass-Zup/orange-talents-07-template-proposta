@@ -40,8 +40,10 @@ public class NovaPropostaController {
                             .getStatusProposta()
             );
         } catch (FeignException.UnprocessableEntity unprocessableEntity) {
+            unprocessableEntity.printStackTrace();
             novaProposta.setStatus(StatusProposta.NAO_ELEGIVEL);
         } catch (FeignException feignException) {
+            feignException.printStackTrace();
             return ResponseEntity.status(feignException.status()).body(feignException.responseBody());
         }
 

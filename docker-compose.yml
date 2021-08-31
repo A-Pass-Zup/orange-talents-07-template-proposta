@@ -172,22 +172,28 @@ services:
     networks:
       - microservice-propostas
 
-
-#  app-proposta:
-#    build: .
-#    environment:
-#      SPRING_PROFILES_ACTIVE: dev
-#      DATABASE_PLATFORM: postgres
-#      DATABASE_DRIVER: org.postgresql.Driver
-#      DATABASE_URL: jdbc:postgresql://db-propostas:5432/microservicepropostas
-#      DATABASE_USER: microservicepropostas
-#      DATABASE_PASSWORD: '0123456789'
-#    ports:
-#      - 8080:8080
-#    depends_on:
-#      - db-propostas
-#    networks:
-#      - microservice-propostas
+  app-proposta:
+    build:
+      context: .
+      args:
+        SERVICO_EXTERNO_ANALISE_SOLICITACAO_URI: http://analise:9999/api/solicitacao
+        SERVICO_EXTERNO_CONTAS_URL: http://contas:8888
+        SERVICO_EXTERNO_CONTAS_CARTOES_URN: /api/cartoes
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL9Dialect
+      DATABASE_DRIVER: org.postgresql.Driver
+      DATABASE_URL: jdbc:postgresql://db-propostas:5432/microservicepropostas
+      DATABASE_USER: microservicepropostas
+      DATABASE_PASSWORD: '0123456789'
+    ports:
+      - 8080:8080
+    depends_on:
+      - analise
+      - contas
+      - db-propostas
+    networks:
+      - microservice-propostas
 
 volumes:
   grafana-volume:
