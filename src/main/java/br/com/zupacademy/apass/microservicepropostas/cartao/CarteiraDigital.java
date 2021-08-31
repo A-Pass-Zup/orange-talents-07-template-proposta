@@ -1,5 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.cartao;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +23,7 @@ public class CarteiraDigital {
     private String identificador;
 
     @NotBlank
+    @NotNull
     @Email
     private String email;
 
@@ -40,6 +43,12 @@ public class CarteiraDigital {
     public CarteiraDigital(@NotNull Cartao cartao,
                            @NotBlank String identificador,
                            @NotBlank @Email String email) {
+
+        Assert.notNull(cartao, "Cartão da carteira digital não poder ser nulo!");
+        Assert.hasText(identificador, "Identificador da carteira digital não pode ser nulo!");
+        Assert.hasText(email, "Carteira digital precisa de um e-mail!");
+
+        this.cartao = cartao;
         this.identificador = identificador;
         this.email = email;
     }
