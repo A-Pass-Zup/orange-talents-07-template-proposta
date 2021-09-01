@@ -32,6 +32,7 @@ public class CarteiraDigital {
     private LocalDateTime associadaEm;
 
     @NotBlank
+    @NotNull
     private String emissor;
 
     /**
