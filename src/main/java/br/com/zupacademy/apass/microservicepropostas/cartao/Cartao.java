@@ -45,7 +45,7 @@ public class Cartao {
     @OneToOne(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private Renegociacao renegociacao;
 
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
@@ -63,11 +63,15 @@ public class Cartao {
     @OneToOne(mappedBy = "cartao")
     private Biometria biometria;
 
+
+    @Enumerated(EnumType.STRING)
+    private StatusBloqueioCartao statusBloqueio;
+
     /**
      * Construtor padrão para JPA. Não utilize.
      */
     @Deprecated
-    protected Cartao(){
+    public Cartao(){
     }
 
     /**
@@ -127,8 +131,23 @@ public class Cartao {
      *
      * @return
      */
-    public Boolean estaBloqueado() {
+    public String getNumero() {
+        return numero;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean existeBloqueioAtivo() {
         return this.bloqueios.stream().anyMatch(Bloqueio::estaAtivo);
+    }
+
+    /**
+     *
+     */
+    public void alterarStatusParaBloqueado() {
+        this.statusBloqueio = StatusBloqueioCartao.BLOQUEADO;
     }
 
     /**
@@ -146,8 +165,17 @@ public class Cartao {
     public void addBloqueio(BloqueioWrapper bloqueioWrapper) {
         final var bloqueio = bloqueioWrapper.converte(this);
 
+        Assert.state(!(this.existeBloqueioAtivo() && bloqueio.estaAtivo()), "Já existe um status de bloqueio ativo!");
         Assert.state(!this.bloqueios.contains(bloqueio), "Não pode adicionar um bloqueio já adicionado!");
 
         this.bloqueios.add(bloqueio);
+    }
+
+    public Optional<Bloqueio> findBloqueioAtivo() {
+        final var bloqueiosAtivos = this.bloqueios.stream().filter(Bloqueio::estaAtivo).collect(Collectors.toList());
+
+        Assert.state(bloqueiosAtivos.size() <= 1, "Existe mais de um bloqueio ativo!");
+
+        return bloqueiosAtivos.stream().findFirst();
     }
 }

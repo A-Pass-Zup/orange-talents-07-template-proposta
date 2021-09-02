@@ -39,7 +39,7 @@ public class Bloqueio {
      * Construtor para JPA. Não utilize.
      */
     @Deprecated
-    protected Bloqueio(){
+    public Bloqueio(){
     }
 
     /**
@@ -101,6 +101,15 @@ public class Bloqueio {
      */
     public Boolean estaAtivo() {
         return ativo;
+    }
+
+    /**
+     * Obtém o sistema responsável pelo bloqueio.
+     *
+     * @return
+     */
+    public String getSistemaResponsavel() {
+        return sistemaResponsavel;
     }
 
     @Override

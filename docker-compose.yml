@@ -179,6 +179,7 @@ services:
 #        SERVICO_EXTERNO_ANALISE_SOLICITACAO_URI: http://analise:9999/api/solicitacao
 #        SERVICO_EXTERNO_CONTAS_URL: http://contas:8888
 #        SERVICO_EXTERNO_CONTAS_CARTOES_URN: /api/cartoes
+#        SERVICO_EXTERNO_CONTAS_CARTOES_BLOQUEIOS_URN: /api/cartoes/{identificadorCartoes}/bloqueios
 #    environment:
 #      SPRING_PROFILES_ACTIVE: dev
 #      DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL9Dialect

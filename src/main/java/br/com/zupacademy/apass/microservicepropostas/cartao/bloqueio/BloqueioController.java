@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -27,7 +26,7 @@ public class BloqueioController {
         final var cartao = new LocalizadorCartao(this.cartaoRepository)
                 .localizaPorIndentificador(identificadorCartao);
 
-        if(cartao.estaBloqueado()) {
+        if(cartao.existeBloqueioAtivo()) {
             return ResponseEntity.unprocessableEntity().body("Cartão já está bloqueado!");
         }
 
