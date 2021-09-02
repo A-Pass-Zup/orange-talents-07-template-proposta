@@ -1,10 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
 
-import br.com.zupacademy.apass.microservicepropostas.cartao.BloqueioWrapper;
-import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
+import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.BloqueioWrapper;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;

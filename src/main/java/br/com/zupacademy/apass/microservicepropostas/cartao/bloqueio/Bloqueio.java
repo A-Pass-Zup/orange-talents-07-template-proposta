@@ -1,5 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.cartao;
+package br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio;
 
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 public class Bloqueio {
@@ -28,6 +30,10 @@ public class Bloqueio {
 
     @NotNull
     private Boolean ativo;
+
+    private String userAgent;
+
+    private String ip;
 
     /**
      * Construtor para JPA. Não utilize.
@@ -61,6 +67,40 @@ public class Bloqueio {
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
         this.ativo = ativo;
+    }
+
+    /**
+     *
+     * @param cartao
+     * @param identificador
+     * @param bloqueadoEm
+     * @param sistemaResponsavel
+     * @param ativo
+     * @param possivelUserAgent
+     * @param possivelIp
+     */
+    public Bloqueio(@NotNull Cartao cartao,
+                    @NotEmpty String identificador,
+                    @NotNull LocalDateTime bloqueadoEm,
+                    @NotEmpty String sistemaResponsavel,
+                    @NotNull Boolean ativo,
+                    Optional<String> possivelUserAgent,
+                    Optional<String> possivelIp) {
+
+        this(cartao, identificador, bloqueadoEm, sistemaResponsavel, ativo);
+
+        System.out.println(this.sistemaResponsavel);
+
+        possivelUserAgent.ifPresent(ua -> this.userAgent = ua);
+        possivelIp.ifPresent(ip -> this.ip = ip);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean estaAtivo() {
+        return ativo;
     }
 
     @Override

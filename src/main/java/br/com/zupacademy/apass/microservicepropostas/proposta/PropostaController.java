@@ -5,17 +5,14 @@ import br.com.zupacademy.apass.microservicepropostas.external_service.analise.So
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/proposta")
-public class NovaPropostaController {
+public class PropostaController {
 
     @Autowired
     private PropostaRepository propostaRepository;
@@ -54,5 +51,15 @@ public class NovaPropostaController {
                         .path("/api/v1/proposta/{identificador}").buildAndExpand(novaProposta.getIdentificador())
                         .toUri()
         ).build();
+    }
+
+    @GetMapping("{identificador}")
+    public ResponseEntity<PropostaResponse> acompanhamento(@PathVariable String identificador) {
+        final var possivelProposta= this.propostaRepository.findByIdentificador(identificador);
+        if(possivelProposta.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(new PropostaResponse(possivelProposta.get()));
     }
 }

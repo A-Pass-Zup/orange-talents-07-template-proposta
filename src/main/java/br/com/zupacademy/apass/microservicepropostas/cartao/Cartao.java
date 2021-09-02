@@ -1,6 +1,8 @@
 package br.com.zupacademy.apass.microservicepropostas.cartao;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.biometria.Biometria;
+import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.Bloqueio;
+import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.BloqueioWrapper;
 import br.com.zupacademy.apass.microservicepropostas.proposta.Proposta;
 import org.springframework.util.Assert;
 
@@ -43,7 +45,7 @@ public class Cartao {
     @OneToOne(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private Renegociacao renegociacao;
 
-    @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
@@ -125,7 +127,27 @@ public class Cartao {
      *
      * @return
      */
+    public Boolean estaBloqueado() {
+        return this.bloqueios.stream().anyMatch(Bloqueio::estaAtivo);
+    }
+
+    /**
+     *
+     * @return
+     */
     public Boolean existeBiometria() {
         return this.biometria != null;
+    }
+
+    /**
+     *
+     * @param bloqueioWrapper
+     */
+    public void addBloqueio(BloqueioWrapper bloqueioWrapper) {
+        final var bloqueio = bloqueioWrapper.converte(this);
+
+        Assert.state(!this.bloqueios.contains(bloqueio), "Não pode adicionar um bloqueio já adicionado!");
+
+        this.bloqueios.add(bloqueio);
     }
 }

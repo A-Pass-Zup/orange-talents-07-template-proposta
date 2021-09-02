@@ -1,10 +1,12 @@
 package br.com.zupacademy.apass.microservicepropostas.cartao.biometria;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.CartaoRepository;
+import br.com.zupacademy.apass.microservicepropostas.cartao.LocalizadorCartao;
 import br.com.zupacademy.apass.microservicepropostas.validation.ErroValidacaoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,25 +29,26 @@ public class BiometriaController {
     @PostMapping("/cartao/{identificadorCartao}")
     public ResponseEntity<?> cadastra(@PathVariable @NotBlank String identificadorCartao,
                                       @RequestBody String biometriaBase64,
-                                      UriComponentsBuilder uriComponentsBuilder) {
+                                      UriComponentsBuilder uriComponentsBuilder,
+                                      @AuthenticationPrincipal AuthenticationPrincipal principal) {
 
         // Verifica se o cartão existe
-        final var possivelCartao = this.cartaoRepository.findByIdentificador(identificadorCartao);
-        if (possivelCartao.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado o cartão com indentificador: " + identificadorCartao + "!");
-        }
-        final var cartao = possivelCartao.get();
+        final var cartao = new LocalizadorCartao(this.cartaoRepository)
+                .localizaPorIndentificador(identificadorCartao);
 
         // Verifica se foi cadastrada uma biometrica para o cartão
         if(cartao.existeBiometria()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cartão já possui biometria cadastrada!");
         }
 
+        System.out.println(principal.toString());
+
         Biometria biometria;
         try {
             biometria = new Biometria(
-                    possivelCartao.get(),
-                    Arrays.toString(Base64.getDecoder().decode(biometriaBase64)));
+                    cartao,
+                    Arrays.toString(Base64.getDecoder().decode(biometriaBase64))
+            );
         } catch (IllegalArgumentException exception) {
             return ResponseEntity.badRequest().body(new ErroValidacaoResponse("biometria", biometriaBase64, "Base64 inválida!"));
         }
