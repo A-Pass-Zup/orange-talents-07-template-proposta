@@ -1,6 +1,5 @@
 package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
 
-import feign.Body;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,4 +13,7 @@ public interface ContasECartoesClient {
 
     @PostMapping(value = "${servico-externo.contas.cartoes.bloqueio.urn}")
     @Valid ResultadoBloqueio notificaBloqueio(@RequestBody @Valid SolicitacaoBloqueioRequest request, @PathVariable("id") String numeroCartao);
+
+    @PostMapping(value = "${servico-externo.contas.cartoes.aviso.urn}")
+    @Valid ResultadoAviso notificaAvisoViagem(@RequestBody @Valid SolicitacaoAvisoViagemRequest request, @PathVariable("id") String numeroCartao);
 }

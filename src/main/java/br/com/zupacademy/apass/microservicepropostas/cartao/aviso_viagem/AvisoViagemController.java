@@ -2,6 +2,9 @@ package br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.CartaoRepository;
 import br.com.zupacademy.apass.microservicepropostas.cartao.LocalizadorCartao;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.ContasECartoesClient;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.SolicitacaoAvisoViagemRequest;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,10 @@ public class AvisoViagemController {
     private CartaoRepository cartaoRepository;
 
     @Autowired
-    private EntityManager entityManager;
+    private AvisoViagemRepository avisoViagemRepository;
+
+    @Autowired
+    private ContasECartoesClient contasECartoesClient;
 
     @PostMapping("/cartao/{identificadorCartao}")
     @Transactional
@@ -34,8 +40,17 @@ public class AvisoViagemController {
 
         final var novoAvisoViagem = avisoViagemRequest.converte(cartao, request);
 
-        this.entityManager.persist(novoAvisoViagem);
+        try {
+            this.contasECartoesClient.notificaAvisoViagem(
+                    new SolicitacaoAvisoViagemRequest(novoAvisoViagem), cartao.getNumero());
 
-        return ResponseEntity.ok().build();
+            this.avisoViagemRepository.save(novoAvisoViagem);
+
+            return ResponseEntity.ok().build();
+
+        } catch(FeignException feignException) {
+            feignException.printStackTrace();
+            return ResponseEntity.status(feignException.status()).body(feignException.getMessage());
+        }
     }
 }

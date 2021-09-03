@@ -4,6 +4,7 @@ import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class AvisoViagem {
     @NotNull
     private LocalDate validoAte;
 
-    @NotEmpty
+    @NotBlank
     @NotNull
     private String destino;
 
@@ -50,7 +51,7 @@ public class AvisoViagem {
      */
     public AvisoViagem(@NotNull Cartao cartao,
                        @NotNull LocalDate validoAte,
-                       @NotEmpty String destino,
+                       @NotBlank String destino,
                        Optional<String> ip,
                        Optional<String> userAgent) {
 
@@ -64,6 +65,14 @@ public class AvisoViagem {
 
         ip.ifPresent(ip_ -> this.ip = ip_);
         userAgent.ifPresent(ua -> this.userAgent = ua);
+    }
+
+    public LocalDate getValidoAte() {
+        return this.validoAte;
+    }
+
+    public String getDestino() {
+        return this.destino;
     }
 
     @Override
