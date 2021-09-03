@@ -1,5 +1,7 @@
 package br.com.zupacademy.apass.microservicepropostas.cartao;
 
+import br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem.AvisoViagem;
+import br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem.AvisoViagemWrapper;
 import br.com.zupacademy.apass.microservicepropostas.cartao.biometria.Biometria;
 import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.Bloqueio;
 import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.BloqueioWrapper;

@@ -1,12 +1,15 @@
-package br.com.zupacademy.apass.microservicepropostas.cartao;
+package br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem;
 
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 public class AvisoViagem {
@@ -19,11 +22,18 @@ public class AvisoViagem {
     private Cartao cartao;
 
     @NotNull
-    private LocalDateTime validoAte;
+    private LocalDate validoAte;
 
     @NotEmpty
     @NotNull
     private String destino;
+
+    private String ip;
+
+    private String userAgent;
+
+    @NotNull
+    private LocalDateTime criadoEm = LocalDateTime.now();
 
     /**
      * Construtor padrão para JPA. Não utilize.
@@ -39,8 +49,10 @@ public class AvisoViagem {
      * @param destino
      */
     public AvisoViagem(@NotNull Cartao cartao,
-                       @NotNull LocalDateTime validoAte,
-                       @NotEmpty String destino) {
+                       @NotNull LocalDate validoAte,
+                       @NotEmpty String destino,
+                       Optional<String> ip,
+                       Optional<String> userAgent) {
 
         Assert.notNull(cartao, "Não pode criar aviso sem definir o cartão!");
         Assert.notNull(validoAte, "Não pode criar aviso sem a validade!");
@@ -49,6 +61,9 @@ public class AvisoViagem {
         this.cartao = cartao;
         this.validoAte = validoAte;
         this.destino = destino;
+
+        ip.ifPresent(ip_ -> this.ip = ip_);
+        userAgent.ifPresent(ua -> this.userAgent = ua);
     }
 
     @Override
