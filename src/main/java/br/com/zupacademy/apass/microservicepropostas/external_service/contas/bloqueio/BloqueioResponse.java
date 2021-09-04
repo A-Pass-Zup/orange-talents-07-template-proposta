@@ -1,4 +1,4 @@
-package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
+package br.com.zupacademy.apass.microservicepropostas.external_service.contas.bloqueio;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.BloqueioWrapper;
 

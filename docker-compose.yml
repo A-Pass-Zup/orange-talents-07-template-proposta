@@ -180,7 +180,8 @@ services:
 #        SERVICO_EXTERNO_CONTAS_BASE_URI: http://contas:8888
 #        SERVICO_EXTERNO_CONTAS_CARTOES_URN: /api/cartoes
 #        SERVICO_EXTERNO_CONTAS_CARTOES_BLOQUEIO_URN: /api/cartoes/{id}/bloqueios
-#        SERVICO_EXTERNO_CONTAS_CARTOES_AVISO_URN=/api/cartoes/{id}/avisos
+#        SERVICO_EXTERNO_CONTAS_CARTOES_AVISO_URN: /api/cartoes/{id}/avisos
+#        SERVICO_EXTERNO_CONTAS_CARTOES_CARTEIRA_DIGITAL_URN: /api/cartoes/{id}/carteiras
 #        AUTHORIZATION_SERVER_ISSUER_URI: http://keycloak:8080/auth/realms/microserviceproposta
 #        AUTHORIZATION_SERVER_JWK_SET_URI: http://keycloak:8080/auth/realms/microserviceproposta/protocol/openid-connect/certs
 #        METRICS_TAGS_APLICACAO: microservice-proposta

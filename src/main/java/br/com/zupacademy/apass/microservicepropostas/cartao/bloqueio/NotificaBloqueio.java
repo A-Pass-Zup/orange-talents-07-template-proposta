@@ -2,13 +2,11 @@ package br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.CartaoRepository;
 import br.com.zupacademy.apass.microservicepropostas.external_service.contas.ContasECartoesClient;
-import br.com.zupacademy.apass.microservicepropostas.external_service.contas.SolicitacaoBloqueioRequest;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.bloqueio.SolicitacaoBloqueioRequest;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
 
 @Component
 public class NotificaBloqueio implements Runnable{

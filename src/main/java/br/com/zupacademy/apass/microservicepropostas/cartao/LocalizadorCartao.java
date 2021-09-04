@@ -20,6 +20,7 @@ public class LocalizadorCartao {
     /**
      *
      * @param identificador
+     * @throws ResponseStatusException HttpStatus.NOT_FOUND se não encontrar o cartão.
      * @return
      */
     public Cartao localizaPorIndentificador(String identificador) {

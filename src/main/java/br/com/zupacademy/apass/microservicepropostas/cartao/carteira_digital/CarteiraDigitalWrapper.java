@@ -1,15 +1,17 @@
-package br.com.zupacademy.apass.microservicepropostas.cartao;
+package br.com.zupacademy.apass.microservicepropostas.cartao.carteira_digital;
 
-import javax.persistence.Column;
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class CarteiraDigitalWrapper {
 
     @NotBlank
-    private String identificador;
+    private String idExterno;
 
     @NotBlank
     @Email
@@ -21,17 +23,21 @@ public class CarteiraDigitalWrapper {
     @NotBlank
     private String emissor;
 
-    public CarteiraDigitalWrapper(@NotBlank String identificador,
+    public CarteiraDigitalWrapper(@NotBlank String idExterno,
                                   @NotBlank @Email String email,
                                   @NotNull LocalDateTime associadaEm,
                                   @NotBlank String emissor) {
-        this.identificador = identificador;
+        this.idExterno = idExterno;
         this.email = email;
         this.associadaEm = associadaEm;
         this.emissor = emissor;
     }
 
     public CarteiraDigital converte(Cartao cartao) {
-        return new CarteiraDigital(cartao, this.identificador, this.email, this.associadaEm, this.emissor);
+        return new CarteiraDigital(cartao,
+                Optional.of(this.idExterno),
+                this.email,
+                this.associadaEm,
+                this.emissor);
     }
 }

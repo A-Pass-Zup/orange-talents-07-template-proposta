@@ -5,6 +5,14 @@ import br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem.AvisoVi
 import br.com.zupacademy.apass.microservicepropostas.cartao.biometria.Biometria;
 import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.Bloqueio;
 import br.com.zupacademy.apass.microservicepropostas.cartao.bloqueio.BloqueioWrapper;
+import br.com.zupacademy.apass.microservicepropostas.cartao.carteira_digital.CarteiraDigital;
+import br.com.zupacademy.apass.microservicepropostas.cartao.carteira_digital.CarteiraDigitalWrapper;
+import br.com.zupacademy.apass.microservicepropostas.cartao.parcela.Parcela;
+import br.com.zupacademy.apass.microservicepropostas.cartao.parcela.ParcelaWrapper;
+import br.com.zupacademy.apass.microservicepropostas.cartao.renegociacao.Renegociacao;
+import br.com.zupacademy.apass.microservicepropostas.cartao.renegociacao.RenegociacaoWrapper;
+import br.com.zupacademy.apass.microservicepropostas.cartao.vencimento.Vencimento;
+import br.com.zupacademy.apass.microservicepropostas.cartao.vencimento.VencimentoWrapper;
 import br.com.zupacademy.apass.microservicepropostas.proposta.Proposta;
 import org.springframework.util.Assert;
 
@@ -59,12 +67,14 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.PERSIST)
     private List<Parcela> parcelas = new ArrayList<>();
 
+    @OneToOne(mappedBy = "cartao", cascade = {CascadeType.PERSIST} )
+    private Vencimento vencimento;
+
     @OneToOne(optional = false)
     private Proposta proposta;
 
     @OneToOne(mappedBy = "cartao")
     private Biometria biometria;
-
 
     @Enumerated(EnumType.STRING)
     private StatusBloqueioCartao statusBloqueio;
@@ -87,6 +97,7 @@ public class Cartao {
      * @param avisosViagens
      * @param carteirasDigitais
      * @param parcelas
+     * @param vencimento
      * @param proposta
      */
     public Cartao(@NotBlank String numero,
@@ -98,6 +109,7 @@ public class Cartao {
                   @NotNull List<AvisoViagemWrapper> avisosViagens,
                   @NotNull List<CarteiraDigitalWrapper> carteirasDigitais,
                   @NotNull List<ParcelaWrapper> parcelas,
+                  @NotNull VencimentoWrapper vencimento,
                   @NotNull Proposta proposta) {
 
         Assert.hasText(numero, "Não pode criar cartão com identificar nulo ou vazio!");
@@ -105,12 +117,14 @@ public class Cartao {
         Assert.hasText(titular, "Não pode criar cartão com titular nulo ou vazio!");
         Assert.notNull(limite, "Não pode criar cartão com limite nulo!");
         Assert.isTrue(limite > 0, "Limite do cartão precisa ser > 0!");
-        Assert.notNull(bloqueios, "Não pode criar cartão sem lista de bloqueios!");
+        Assert.notNull(bloqueios, "Não pode criar cartão com bloqueios nulo!");
 
         Assert.notNull(bloqueios, "Não pode criar cartão com lista de bloqueios nula!");
         Assert.notNull(avisosViagens, "Não pode criar cartão com lista de avisos de viagens nula!");
         Assert.notNull(carteirasDigitais, "Não pode criar cartão com lista de carteiras digitais nula!");
         Assert.notNull(parcelas, "Não pode criar cartão com lista de parcelas nula!");
+
+        Assert.notNull(vencimento, "Não pode criar cartão com vencimentos nulo!");
 
         Assert.notNull(proposta, "Não pode criar o cartão sem a proposta!");
 
@@ -125,6 +139,8 @@ public class Cartao {
         this.avisosViagens = avisosViagens.stream().map(av -> av.converte(this)).collect(Collectors.toList());
         this.carteirasDigitais = carteirasDigitais.stream().map(cd -> cd.converte(this)).collect(Collectors.toList());
         this.parcelas = parcelas.stream().map(p -> p.converte(this)).collect(Collectors.toList());
+
+        this.vencimento = vencimento.converte(this);
 
         this.proposta = proposta;
     }

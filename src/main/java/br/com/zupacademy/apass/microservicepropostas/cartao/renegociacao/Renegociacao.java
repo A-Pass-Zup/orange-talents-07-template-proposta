@@ -1,5 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.cartao;
+package br.com.zupacademy.apass.microservicepropostas.cartao.renegociacao;
 
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;

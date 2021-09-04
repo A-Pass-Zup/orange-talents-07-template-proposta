@@ -39,7 +39,7 @@ public class Bloqueio {
      * Construtor para JPA. Não utilize.
      */
     @Deprecated
-    public Bloqueio(){
+    protected Bloqueio(){
     }
 
     /**

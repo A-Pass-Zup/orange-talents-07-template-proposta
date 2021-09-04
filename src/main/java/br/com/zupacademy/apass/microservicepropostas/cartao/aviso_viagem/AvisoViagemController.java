@@ -3,15 +3,13 @@ package br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem;
 import br.com.zupacademy.apass.microservicepropostas.cartao.CartaoRepository;
 import br.com.zupacademy.apass.microservicepropostas.cartao.LocalizadorCartao;
 import br.com.zupacademy.apass.microservicepropostas.external_service.contas.ContasECartoesClient;
-import br.com.zupacademy.apass.microservicepropostas.external_service.contas.SolicitacaoAvisoViagemRequest;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.aviso_viagem.SolicitacaoAvisoViagemRequest;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.parser.Entity;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 

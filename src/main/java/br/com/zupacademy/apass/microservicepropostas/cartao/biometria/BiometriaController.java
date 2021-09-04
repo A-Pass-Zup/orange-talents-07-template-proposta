@@ -29,8 +29,7 @@ public class BiometriaController {
     @PostMapping("/cartao/{identificadorCartao}")
     public ResponseEntity<?> cadastra(@PathVariable @NotBlank String identificadorCartao,
                                       @RequestBody String biometriaBase64,
-                                      UriComponentsBuilder uriComponentsBuilder,
-                                      @AuthenticationPrincipal AuthenticationPrincipal principal) {
+                                      UriComponentsBuilder uriComponentsBuilder) {
 
         // Verifica se o cartão existe
         final var cartao = new LocalizadorCartao(this.cartaoRepository)
@@ -40,8 +39,6 @@ public class BiometriaController {
         if(cartao.existeBiometria()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cartão já possui biometria cadastrada!");
         }
-
-        System.out.println(principal.toString());
 
         Biometria biometria;
         try {

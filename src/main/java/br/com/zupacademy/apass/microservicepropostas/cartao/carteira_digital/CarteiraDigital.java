@@ -1,5 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.cartao;
+package br.com.zupacademy.apass.microservicepropostas.cartao.carteira_digital;
 
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @Entity
 public class CarteiraDigital {
@@ -16,12 +19,14 @@ public class CarteiraDigital {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String idExterno;
+
     @ManyToOne(optional = false)
     private Cartao cartao;
 
     @NotBlank
     @Column(nullable = false, unique = true)
-    private String identificador;
+    private String identificador = UUID.randomUUID().toString();
 
     @NotBlank
     @NotNull
@@ -32,7 +37,7 @@ public class CarteiraDigital {
     private LocalDateTime associadaEm;
 
     @NotBlank
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String emissor;
 
     /**
@@ -45,13 +50,13 @@ public class CarteiraDigital {
      * Construtor com dados obrigatórios.
      *
      * @param cartao
-     * @param identificador
+     * @param idExterno
      * @param email
      * @param associadaEm
      * @param emissor
      */
     public CarteiraDigital(@NotNull Cartao cartao,
-                           @NotBlank String identificador,
+                           @NotBlank Optional<String> idExterno,
                            @NotBlank @Email String email,
                            @NotNull LocalDateTime associadaEm,
                            @NotBlank String emissor) {
@@ -63,10 +68,18 @@ public class CarteiraDigital {
         Assert.hasText(emissor, "Emissor da carteira digital não pode ser vazio!");
 
         this.cartao = cartao;
-        this.identificador = identificador;
+        idExterno.ifPresent(idE -> this.idExterno = idE);
         this.email = email;
         this.associadaEm = associadaEm;
         this.emissor = emissor;
+    }
+
+    public CarteiraDigital(Cartao cartao, CarteirasDigitais carteiraDigital, String email) {
+        this(cartao, Optional.empty(), email, LocalDateTime.now(), carteiraDigital.toString());
+    }
+
+    public void setIdExterno(String idExterno) {
+        this.idExterno = idExterno;
     }
 
     @Override
@@ -80,5 +93,17 @@ public class CarteiraDigital {
     @Override
     public int hashCode() {
         return Objects.hash(cartao, identificador, email);
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getEmissor() {
+        return this.emissor;
+    }
+
+    public String getIdentificador() {
+        return this.identificador;
     }
 }

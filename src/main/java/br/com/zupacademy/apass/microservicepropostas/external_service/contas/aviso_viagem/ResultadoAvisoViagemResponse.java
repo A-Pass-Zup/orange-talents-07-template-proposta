@@ -1,15 +1,15 @@
-package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
+package br.com.zupacademy.apass.microservicepropostas.external_service.contas.aviso_viagem;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotBlank;
 
-public class ResultadoBloqueio {
+public class ResultadoAvisoViagemResponse {
     @NotBlank
     private String resultado;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public ResultadoBloqueio(@NotBlank String resultado) {
+    public ResultadoAvisoViagemResponse(@NotBlank String resultado) {
         this.resultado = resultado;
     }
 }

@@ -1,9 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
+package br.com.zupacademy.apass.microservicepropostas.external_service.contas.carteira_digital;
 
-import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
-import br.com.zupacademy.apass.microservicepropostas.cartao.CarteiraDigital;
-import br.com.zupacademy.apass.microservicepropostas.cartao.CarteiraDigitalWrapper;
-import org.apache.tomcat.jni.Local;
+import br.com.zupacademy.apass.microservicepropostas.cartao.carteira_digital.CarteiraDigitalWrapper;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

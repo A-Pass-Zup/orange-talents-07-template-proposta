@@ -1,4 +1,4 @@
-package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
+package br.com.zupacademy.apass.microservicepropostas.external_service.contas.aviso_viagem;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.aviso_viagem.AvisoViagemWrapper;
 

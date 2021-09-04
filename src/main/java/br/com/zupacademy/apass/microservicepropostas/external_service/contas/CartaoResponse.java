@@ -1,14 +1,16 @@
 package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
 
 import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
-import br.com.zupacademy.apass.microservicepropostas.cartao.ParcelaWrapper;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.aviso_viagem.AvisoViagemResponse;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.bloqueio.BloqueioResponse;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.carteira_digital.CarteiraDigitalResponse;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.parcela.ParcelaResponse;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.renegociacao.RenegociacaoResponse;
+import br.com.zupacademy.apass.microservicepropostas.external_service.contas.vencimento.VencimentoResponse;
 import br.com.zupacademy.apass.microservicepropostas.proposta.PropostaRepository;
-import org.springframework.cloud.netflix.ribbon.apache.HttpClientStatusCodeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
 
-import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -105,6 +107,7 @@ public class CartaoResponse {
                 this.avisos.stream().map(AvisoViagemResponse::converte).collect(Collectors.toList()),
                 this.carteiras.stream().map(CarteiraDigitalResponse::converte).collect(Collectors.toList()),
                 this.parcelas.stream().map(ParcelaResponse::converte).collect(Collectors.toList()),
+                this.vencimento.converte(),
                 proposta);
 
     }

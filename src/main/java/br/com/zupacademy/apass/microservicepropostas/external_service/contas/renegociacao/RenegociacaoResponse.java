@@ -1,8 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.external_service.contas;
+package br.com.zupacademy.apass.microservicepropostas.external_service.contas.renegociacao;
 
-import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
-import br.com.zupacademy.apass.microservicepropostas.cartao.Renegociacao;
-import br.com.zupacademy.apass.microservicepropostas.cartao.RenegociacaoWrapper;
+import br.com.zupacademy.apass.microservicepropostas.cartao.renegociacao.RenegociacaoWrapper;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

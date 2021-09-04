@@ -1,4 +1,6 @@
-package br.com.zupacademy.apass.microservicepropostas.cartao;
+package br.com.zupacademy.apass.microservicepropostas.cartao.renegociacao;
+
+import br.com.zupacademy.apass.microservicepropostas.cartao.Cartao;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
