@@ -2,6 +2,7 @@ package br.com.zupacademy.apass.microservicepropostas.proposta;
 
 import br.com.zupacademy.apass.microservicepropostas.external_service.analise.SolicitacaoAnalise;
 import br.com.zupacademy.apass.microservicepropostas.external_service.analise.SolicitacaoAnaliseClient;
+import br.com.zupacademy.apass.microservicepropostas.security.Crypt;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,13 @@ public class PropostaController {
     @Autowired
     private SolicitacaoAnaliseClient solicitacaoAnaliseClient;
 
+    @Autowired
+    private Crypt crypt;
+
     @PostMapping
     public ResponseEntity<?> cadastra(@Valid @RequestBody PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder) {
 
-        final var novaProposta = propostaRequest.converte();
+        final var novaProposta = propostaRequest.converte(this.crypt);
 
         if(this.propostaRepository.existsByDocumento(novaProposta.getDocumento())) {
             return ResponseEntity.unprocessableEntity().build();

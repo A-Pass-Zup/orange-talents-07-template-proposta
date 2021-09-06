@@ -1,5 +1,6 @@
 package br.com.zupacademy.apass.microservicepropostas.proposta;
 
+import br.com.zupacademy.apass.microservicepropostas.security.Crypt;
 import br.com.zupacademy.apass.microservicepropostas.validation.constraints.CpfOrCnpj;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -54,9 +55,14 @@ public class PropostaRequest {
     /**
      * Converte os dados para o modelo de domínio.
      *
+     * @param crypt
      * @return
      */
-    public Proposta converte() {
-        return new Proposta(this.documento.replaceAll("\\D", ""), this.email, this.nome, this.endereco, this.salario);
+    public Proposta converte(Crypt crypt) {
+        return new Proposta(new DocumentoCrypt(crypt, this.documento.replaceAll("\\D", "")),
+                this.email,
+                this.nome,
+                this.endereco,
+                this.salario);
     }
 }

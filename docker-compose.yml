@@ -172,39 +172,40 @@ services:
     networks:
       - microservice-propostas
 
-  app-proposta:
-    build:
-      context: .
-      args:
-        SERVICO_EXTERNO_ANALISE_SOLICITACAO_URI: http://analise:9999/api/solicitacao
-        SERVICO_EXTERNO_CONTAS_BASE_URI: http://contas:8888
-        SERVICO_EXTERNO_CONTAS_CARTOES_URN: /api/cartoes
-        SERVICO_EXTERNO_CONTAS_CARTOES_BLOQUEIO_URN: /api/cartoes/{id}/bloqueios
-        SERVICO_EXTERNO_CONTAS_CARTOES_AVISO_URN: /api/cartoes/{id}/avisos
-        SERVICO_EXTERNO_CONTAS_CARTOES_CARTEIRA_DIGITAL_URN: /api/cartoes/{id}/carteiras
-        AUTHORIZATION_SERVER_ISSUER_URI: http://host.docker.internal:18080/auth/realms/microserviceproposta
-        AUTHORIZATION_SERVER_JWK_SET_URI: http://host.docker.internal:18080/auth/realms/microserviceproposta/protocol/openid-connect/certs
-        METRICS_TAGS_APLICACAO: microservice-proposta
-        METRICS_TAGS_AMBIENTE: desenvolvimento
-        JAEGER_HTTP_SENDER_URL: http://jaeger:14268/api/traces
-        JAEGER_PROB_SAMPLING_RATE: 1
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL9Dialect
-      DATABASE_DRIVER: org.postgresql.Driver
-      DATABASE_URL: jdbc:postgresql://db-propostas:5432/microservicepropostas
-      DATABASE_USER: microservicepropostas
-      DATABASE_PASSWORD: '0123456789'
-    ports:
-      - 8080:8080
-    depends_on:
-      - analise
-      - contas
-      - keycloak
-      - db-propostas
-      - prometheus
-    networks:
-      - microservice-propostas
+#  app-proposta:
+#    build:
+#      context: .
+#      args:
+#        SERVICO_EXTERNO_ANALISE_SOLICITACAO_URI: http://analise:9999/api/solicitacao
+#        SERVICO_EXTERNO_CONTAS_BASE_URI: http://contas:8888
+#        SERVICO_EXTERNO_CONTAS_CARTOES_URN: /api/cartoes
+#        SERVICO_EXTERNO_CONTAS_CARTOES_BLOQUEIO_URN: /api/cartoes/{id}/bloqueios
+#        SERVICO_EXTERNO_CONTAS_CARTOES_AVISO_URN: /api/cartoes/{id}/avisos
+#        SERVICO_EXTERNO_CONTAS_CARTOES_CARTEIRA_DIGITAL_URN: /api/cartoes/{id}/carteiras
+#        AUTHORIZATION_SERVER_ISSUER_URI: http://host.docker.internal:18080/auth/realms/microserviceproposta
+#        AUTHORIZATION_SERVER_JWK_SET_URI: http://host.docker.internal:18080/auth/realms/microserviceproposta/protocol/openid-connect/certs
+#        METRICS_TAGS_APLICACAO: microservice-proposta
+#        METRICS_TAGS_AMBIENTE: desenvolvimento
+#        JAEGER_HTTP_SENDER_URL: http://jaeger:14268/api/traces
+#        JAEGER_PROB_SAMPLING_RATE: 1
+#        CRYPT_SECRET: 'KapN?vMPeZG79=Vea:PyPM1wTAAEpv~F39y@JoQ?>T#)!Kx2=yT,HQpy.jyChc]='
+#    environment:
+#      SPRING_PROFILES_ACTIVE: dev
+#      DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL9Dialect
+#      DATABASE_DRIVER: org.postgresql.Driver
+#      DATABASE_URL: jdbc:postgresql://db-propostas:5432/microservicepropostas
+#      DATABASE_USER: microservicepropostas
+#      DATABASE_PASSWORD: '0123456789'
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - analise
+#      - contas
+#      - keycloak
+#      - db-propostas
+#      - prometheus
+#    networks:
+#      - microservice-propostas
 
 volumes:
   grafana-volume:

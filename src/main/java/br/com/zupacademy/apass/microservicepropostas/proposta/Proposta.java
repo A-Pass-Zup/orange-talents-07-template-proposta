@@ -56,19 +56,19 @@ public class Proposta {
     /**
      * Construtor com os dados padrões.
      *
-     * @param documento O cpf/cnpj (somente números).
+     * @param documento O cpf/cnpj criptografado.
      * @param email
      * @param nome
      * @param endereco
      * @param salario
      */
-    public Proposta(@NotBlank String documento,
+    public Proposta(@NotBlank DocumentoCrypt documento,
                     @Email @NotBlank String email,
                     @NotBlank String nome,
                     @NotBlank String endereco,
                     @NotNull @Positive BigDecimal salario) {
 
-        Assert.hasText(documento, "Não pode criar uma proposta sem documento!");
+        Assert.notNull(documento, "Documento não pode ser nulo!");
 
         Assert.hasText(email, "Não pode criar uma proposta sem e-mail!");
 
@@ -79,9 +79,7 @@ public class Proposta {
         Assert.notNull(salario, "Não pode criar uma proposta com salário nulo!");
         Assert.isTrue(salario.compareTo(BigDecimal.ZERO) > 0, "Salário da proposta precisa ser  >0 !");
 
-        Assert.isTrue(documento.matches("^\\d{11}|\\d{14}$"), "O documento  (cpf/cpj) tem que ser somente números!");
-
-        this.documento = documento;
+        this.documento = documento.getDocumentoCriptografado();
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
